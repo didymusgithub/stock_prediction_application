@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('{{ url_for("static", filename="login_bg.png") }}'); /* Background image */
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-card {
+        background: rgba(255, 255, 255, 0.9); /* White background with transparency */
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 400px; /* Set a fixed width for the card */
+        position: relative; /* Allow for absolute positioning of buttons */
+    }
+
+    .btn-block {
+        width: 100%; /* Make buttons full width */
+        height: 50px; /* Set a fixed height for buttons */
+    }
+
+    .signup-btn {
+        background-color: #007bff; /* Bootstrap primary color for signup */
+        color: white; /* White text for visibility */
+        border: none; /* Remove default border */
+    }
+
+    .signup-btn:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    .login-text {
+        text-align: center; /* Center the text */
+        margin-top: 10px; /* Space above the text */
+    }
+
+    .login-link {
+        color: #007bff; /* Bootstrap primary color for the link */
+        text-decoration: none; /* Remove underline */
+        font-weight: bold; /* Make it bold */
+    }
+
+    .login-link:hover {
+        text-decoration: underline; /* Underline on hover */
+    }
+</style>
+
+<div class="login-card container mt-5">
+    <h3 class="text-center mb-4">Sign Up</h3>
+
+    <form method="POST">
+        <!-- Email Field -->
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="Enter email"
+                required
+            />
+        </div>
+
+        <!-- First Name Field -->
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input
+                type="text"
+                class="form-control"
+                id="firstName"
+                name="firstName"
+                placeholder="Enter first name"
+                required
+            />
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+            <label for="password1">Password</label>
+            <input
+                type="password"
+                class="form-control"
+                id="password1"
+                name="password1"
+                placeholder="Enter password"
+                required
+            />
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+            <label for="password2">Password (Confirm)</label>
+            <input
+                type="password"
+                class="form-control"
+                id="password2"
+                name="password2"
+                placeholder="Confirm password"
+                required
+            />
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-block signup-btn">Submit</button>
+
+        <!-- Login Prompt -->
+        <div class="login-text">
+            <small>Already have an account? <a href="{{ url_for('auth.login') }}" class="login-link">Log In</a></small>
+        </div>
+
+        <!-- Flash Messages for Feedback -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="alert alert-danger mt-3" role="alert">
+            {% for category, message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </form>
+</div>
+{% endblock %}

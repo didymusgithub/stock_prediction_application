@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(to right, #f8f9fa, #e9ecef); /* Light gradient background */
+        font-family: 'Arial', sans-serif; /* Clean font */
+    }
+
+    h1 {
+        margin-bottom: 30px;
+        color: #343a40; /* Darker text color for headings */
+    }
+
+    .note-container {
+        max-width: 800px; /* Limit the width of the container */
+        margin: 0 auto; /* Center the container */
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95); /* Slightly transparent white background */
+        border-radius: 15px; /* Rounded corners */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    }
+
+    .list-group-item {
+        display: flex; /* Flexbox for better layout */
+        justify-content: space-between; /* Space between note text and delete button */
+        align-items: center; /* Center items vertically */
+        padding: 15px; /* Add some padding */
+        border: none; /* Remove border */
+        background: rgba(0, 123, 255, 0.05); /* Light blue background for list items */
+        margin-bottom: 10px; /* Space between list items */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .list-group-item button {
+        background: transparent; /* Transparent background for delete button */
+        border: none; /* Remove border */
+        color: #dc3545; /* Bootstrap danger color for delete button */
+        font-size: 20px; /* Increase size for visibility */
+        cursor: pointer; /* Pointer cursor on hover */
+    }
+
+    .list-group-item button:hover {
+        color: #bd2130; /* Darker red on hover */
+    }
+
+    .form-control {
+        border: 1px solid #ced4da; /* Border for the textarea */
+        border-radius: 10px; /* Rounded corners */
+        margin-bottom: 20px; /* Space below textarea */
+        height: 100px; /* Fixed height for the textarea */
+    }
+
+    .btn-primary {
+        width: 100%; /* Full width button */
+        height: 50px; /* Fixed height for button */
+        border-radius: 10px; /* Rounded corners */
+        font-size: 16px; /* Larger font size */
+    }
+</style>
+
+<div class="note-container">
+    <h1 align="center">Notes</h1>
+    <ul class="list-group list-group-flush" id="notes">
+        {% for note in user.notes %}
+        <li class="list-group-item">
+            {{ note.data }}
+            <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <form method="POST">
+        <textarea name="note" id="note" class="form-control" placeholder="Add a new note..."></textarea>
+        <div align="center">
+            <button type="submit" class="btn btn-primary">Add Note</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

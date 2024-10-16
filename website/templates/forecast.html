@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Stock Price Forecast</h2>
+    <form method="POST" class="form-inline justify-content-center mb-4">
+        <div class="form-group mr-2">
+            <label for="ticker" class="sr-only">Stock Ticker:</label>
+            <input type="text" name="ticker" id="ticker" class="form-control" placeholder="Enter Stock Ticker" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Forecast</button>
+    </form>
+
+    {% if future_forecast|length > 0 %}
+        <h3 class="text-center">Future 30 Days Prediction for <strong>{{ ticker }}</strong></h3>
+
+        <!-- Two-column grid for future predictions -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h4>Days</h4>
+                <ul class="list-group">
+                    {% for day in range(30) %}
+                        <li class="list-group-item">Day {{ day + 1 }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4>Future Predictions</h4>
+                <ul class="list-group">
+                    {% for value in future_forecast %}
+                        <li class="list-group-item">{{ value[0] }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center mb-4">
+            <p class="lead text-primary">Train RMSE: <strong>{{ train_rmse }}</strong></p>
+            <p class="lead text-danger">Test RMSE: <strong>{{ test_rmse }}</strong></p>
+        </div>
+
+        <!-- Display historical and forecast graphs stacked vertically -->
+        <div class="mb-4 text-center">
+            <h4>Closing Price Plot</h4>
+            <div class="card mb-3">
+                <img src="{{ url_for('static', filename='graphs/closing_price_plot.png') }}" alt="Historical Graph" class="card-img-top img-fluid" style="width: 100%; height: auto;">
+            </div>
+        </div>
+
+        <div class="mb-4 text-center">
+            <h4>Future Forecast</h4>
+            <div class="card mb-3">
+                <img src="{{ url_for('static', filename='graphs/future_forecast_plot.png') }}" alt="Forecast Graph" class="card-img-top img-fluid" style="width: 100%; height: auto;">
+            </div>
+        </div>
+
+        <div class="mb-4 text-center">
+            <h4>Train vs. Test Plot</h4>
+            <div class="card mb-3">
+                <img src="{{ url_for('static', filename='graphs/train_test_plot.png') }}" alt="Train Test Graph" class="card-img-top img-fluid" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
